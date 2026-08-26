@@ -1,7 +1,7 @@
 services:
     postgres:
         image: postgres:16
-        container_name: my-postgres
+        container_name: posty
         restart: unless-stopped
         environment:
             POSTGRES_PASSWORD: test
