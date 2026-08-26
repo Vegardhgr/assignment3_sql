@@ -1,0 +1,14 @@
+services:
+    postgres:
+        image: postgres:16
+        container_name: posty
+        restart: unless-stopped
+        environment:
+            POSTGRES_PASSWORD: test
+        ports:
+            - "5432:5432"
+        tmpfs:
+            - /var/lib/postgresql/data
+
+        volumes:
+            - ./src/main/resources/sql/db_init:/docker-entrypoint-initdb.d
