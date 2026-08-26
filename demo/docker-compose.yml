@@ -1,14 +1,40 @@
 services:
-  postgres:
-    image: postgres:16
-    container_name: my-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_PASSWORD: test
-    ports:
-      - "5432:5432"
-    tmpfs:
-        - /var/lib/postgresql/data
- 
-    volumes:
-        - ./src/main/resources/sql/db_init:/docker-entrypoint-initdb.d
+    postgres:
+        image: postgres:16
+        container_name: my-postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_PASSWORD: test
+        ports:
+            - "5432:5432"
+        tmpfs:
+            - /var/lib/postgresql/data
+
+        volumes:
+            - ./src/main/resources/sql/db_init:/docker-entrypoint-initdb.d
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U rpghero -d RPGHeroesDb"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    app:
+        build: .
+        container_name: demo-app
+        depends_on:
+            postgres:
+                condition: service_healthy
+        environment:
+            SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/RPGHeroesDb
+        ports:
+            - "8080:8080"
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@admin.com
+            PGADMIN_DEFAULT_PASSWORD: admin
+        ports:
+        - "5050:80"
+        depends_on:
+        - postgres
