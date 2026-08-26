@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.entity;
 
 import jakarta.persistence.Entity;
 import java.time.LocalDate;
@@ -10,6 +10,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String subscriptionType;
     private LocalDate dateJoined;
 
@@ -18,6 +19,7 @@ public class User {
         String fn,
         String ln,
         String email,
+        String pw,
         String st,
         LocalDate dj
     ) {
@@ -25,6 +27,7 @@ public class User {
         this.firstName = fn;
         this.lastName = ln;
         this.email = email;
+        this.password = pw;
         this.subscriptionType = st;
         this.dateJoined = dj;
     }
@@ -51,5 +54,10 @@ public class User {
 
     public LocalDate getDateJoined() {
         return dateJoined;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + id + ", Name: " + firstName + " " + lastName;
     }
 }
