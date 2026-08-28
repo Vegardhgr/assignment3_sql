@@ -1,9 +1,7 @@
-package com.example.entity;
+package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
 import java.time.LocalDate;
 
-@Entity
 public class User {
 
     private int id;
@@ -46,6 +44,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getSubscriptionType() {

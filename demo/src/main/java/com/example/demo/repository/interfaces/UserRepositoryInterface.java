@@ -1,18 +1,14 @@
-package com.example.repository.interfaces;
+package com.example.demo.repository.interfaces;
 
-import com.example.entity.User;
-import com.example.model.MoviesMostPopular;
-import com.example.model.MoviesMostWatched;
-import com.example.model.UserSubscriptionType;
+import com.example.demo.entity.User;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepositoryInterface {
     public List<User> getAllUsers();
-    public User getUserById(int id);
+    public Optional<User> getUserById(int id);
     public List<User> getUsersByName(String name);
     public List<User> getUsersPage(int limit, int offset);
-    public List<UserSubscriptionType> getNumberOfUsersInSubscriptionType();
-    public List<MoviesMostWatched> getMostWatchedMovies();
 
     public boolean addUser(
         String fn,
@@ -27,6 +23,4 @@ public interface UserRepositoryInterface {
         String fn,
         String ln
     );
-
-    public List<MoviesMostPopular> getMostWatchedGenreByUser(int userId);
 }
