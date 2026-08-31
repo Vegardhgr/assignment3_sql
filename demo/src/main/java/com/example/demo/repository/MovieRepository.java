@@ -21,7 +21,14 @@ public class MovieRepository implements MovieRepositoryInterface {
         this.db = db;
     }
 
-    public List<MoviesMostWatched> getMostWatchedMovies() {
+    /**
+     * Retrieves the most watched movies from the database.
+     *
+     * @return a list of {@link MoviesMostWatched} objects representing the most watched movies
+     * @throws RuntimeException if a database access error occurs
+     */
+    public List<MoviesMostWatched> getMostWatchedMovies()
+        throws RuntimeException {
         String sql =
             "SELECT Movies.Title as movieTitle, COUNT(*) as watchCount " +
             "FROM WatchHistory " +
@@ -54,7 +61,15 @@ public class MovieRepository implements MovieRepositoryInterface {
         return result;
     }
 
-    public List<MoviesMostPopular> getMostWatchedGenreByUser(int userId) {
+    /**
+     * Retrieves the most watched genre by the user from the database.
+     *
+     * @param userId the ID of the user
+     * @return a list of {@link MoviesMostPopular} objects representing the most watched genre by the user
+     * @throws RuntimeException if a database access error occurs
+     */
+    public List<MoviesMostPopular> getMostWatchedGenreByUser(int userId)
+        throws RuntimeException {
         String sql =
             "SELECT Movies.Title as movieTitle, Movies.Genre as movieGenre " +
             "FROM WatchHistory " +

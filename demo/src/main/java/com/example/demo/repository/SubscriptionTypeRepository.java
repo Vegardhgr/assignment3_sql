@@ -22,7 +22,14 @@ public class SubscriptionTypeRepository
         this.db = db;
     }
 
-    public List<UserSubscriptionType> getNumberOfUsersInSubscriptionType() {
+    /**
+     * Retrieves the number of users in each subscription type from the database.
+     *
+     * @return a list of {@link UserSubscriptionType} objects representing the number of users in each subscription type
+     * @throws RuntimeException if a database access error occurs
+     */
+    public List<UserSubscriptionType> getNumberOfUsersInSubscriptionType()
+        throws RuntimeException {
         String sql =
             "SELECT SubscriptionType, COUNT(*) as usersInSubscription " +
             "FROM Users " +
