@@ -21,7 +21,13 @@ public class UserRepository implements UserRepositoryInterface {
         this.db = db;
     }
 
-    public List<User> getAllUsers() {
+    /**
+     * Retrieves all users from the database.
+     *
+     * @return a list of all users
+     * @throws RuntimeException if an error occurs while retrieving the users
+     */
+    public List<User> getAllUsers() throws RuntimeException {
         String sql = "SELECT * FROM Users";
         List<User> result = new ArrayList<>();
 
@@ -41,7 +47,14 @@ public class UserRepository implements UserRepositoryInterface {
         return result;
     }
 
-    public Optional<User> getUserById(int id) {
+    /**
+     * Retrieves a user by their ID from the database.
+     * 
+     * @param id the ID of the user to retrieve
+     * @return an Optional containing the user if found, or empty if not found
+     * @throws RuntimeException if an error occurs while retrieving the user
+     */
+    public Optional<User> getUserById(int id) throws RuntimeException {
         String sql = "SELECT * FROM Users WHERE UserId = ?";
 
         try (
@@ -61,7 +74,15 @@ public class UserRepository implements UserRepositoryInterface {
         return Optional.empty();
     }
 
-    public List<User> getUsersByName(String name) {
+    
+    /**
+     * Retrieves users by their first name from the database.
+     * 
+     * @param name the first name of the users to retrieve
+     * @return a list of users with the given first name
+     * @throws RuntimeException if an error occurs while retrieving the users
+     */
+    public List<User> getUsersByName(String name) throws RuntimeException {
         String sql = "SELECT * FROM Users WHERE FirstName LIKE ?";
         List<User> result = new ArrayList<>();
 
@@ -85,7 +106,15 @@ public class UserRepository implements UserRepositoryInterface {
         return result;
     }
 
-    public List<User> getUsersPage(int limit, int offset) {
+    /**
+     * Retrieves a page of users from the database.
+     *
+     * @param limit the number of users to retrieve
+     * @param offset the number of users to skip
+     * @return a list of users
+     * @throws RuntimeException if an error occurs while retrieving the users
+     */
+    public List<User> getUsersPage(int limit, int offset) throws RuntimeException {
         String sql = "SELECT * FROM Users LIMIT ? OFFSET ?";
         List<User> result = new ArrayList<>();
 
@@ -111,13 +140,24 @@ public class UserRepository implements UserRepositoryInterface {
         return result;
     }
 
+    /**
+     * Adds a new user to the database.
+     *
+     * @param fn the first name of the new user
+     * @param ln the last name of the new user
+     * @param em the email of the new user
+     * @param pw the password of the new user
+     * @param st the subscription type of the new user
+     * @return true if the user was added successfully, false otherwise
+     * @throws RuntimeException if an error occurs while adding the user
+     */
     public boolean addUser(
         String fn,
         String ln,
         String em,
         String pw,
         String st
-    ) {
+    ) throws RuntimeException {
         String sql =
             "INSERT INTO Users (FirstName, LastName, Email, Password, SubscriptionType) VALUES (?,?,?,?,?)";
 
@@ -136,11 +176,20 @@ public class UserRepository implements UserRepositoryInterface {
         }
     }
 
+    /**
+     * Updates the first name and last name of a user in the database.
+     * 
+     * @param fn the new first name of the user
+     * @param ln the new last name of the user
+     * @param email the email of the user to update
+     * @return true if the user was updated successfully, false otherwise
+     * @throws RuntimeException if an error occurs while updating the user
+     */
     public boolean updateUserFirstNameLastName(
         String fn,
         String ln,
         String email
-    ) {
+    ) throws RuntimeException {
         String sql =
             "UPDATE Users SET FirstName = ?, LastName = ? WHERE Email = ?";
 
@@ -160,6 +209,13 @@ public class UserRepository implements UserRepositoryInterface {
         }
     }
 
+    /**
+     * Maps a row from the ResultSet to a User object.
+     * 
+     * @param rs the ResultSet containing the user data
+     * @return a User object representing the current row in the ResultSet
+     * @throws SQLException if a column cannot be read from the ResultSet
+     */
     private User mapRow(ResultSet rs) throws SQLException {
         return new User(
             rs.getInt("UserId"),
